@@ -15,6 +15,7 @@ frontend/.env
 # IDE
 .idea/
 .vscode/
+.kilo/
 *.swp
 *.swo
 
