@@ -1,20 +1,17 @@
 import { useState } from "react";
+import Heading from "../../components/Heading";
+import Button from "../../components/Button";
+import Icon from "../../components/Icon";
 import { getTrafficReport, askAdmin, getStaffingSuggestion } from "../../api/ai";
-import { useAuth } from "../../context/AuthContext";
 
 export default function ReportsPage() {
-  const { user, logout } = useAuth();
-
-  // AI-01
   const [trafficLoading, setTrafficLoading] = useState(false);
   const [trafficReport, setTrafficReport] = useState(null);
 
-  // AI-02
   const [question, setQuestion] = useState("");
   const [askLoading, setAskLoading] = useState(false);
   const [answer, setAnswer] = useState(null);
 
-  // AI-03
   const [soNhanVien, setSoNhanVien] = useState(2);
   const [staffingLoading, setStaffingLoading] = useState(false);
   const [staffingResult, setStaffingResult] = useState(null);
@@ -61,60 +58,53 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">SmartParkingAI — Quản lý</h1>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-600">{user?.full_name}</span>
-          <button onClick={logout} className="text-sm text-red-600">Đăng xuất</button>
-        </div>
+        <Heading level={2}>Báo cáo & Trợ lý AI</Heading>
       </div>
 
       {/* AI-01: Báo cáo lưu lượng */}
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="font-semibold">AI-01 — Báo cáo lưu lượng (7 ngày gần nhất)</h2>
-          <button
-            onClick={handleTrafficReport}
-            disabled={trafficLoading}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-          >
-            {trafficLoading ? "Đang phân tích..." : "Sinh báo cáo"}
-          </button>
+      <article className="panel ai-card">
+        <div className="ai-glow" />
+        <div className="ai-head">
+          <div className="ai-icon"><Icon name="sparkles" /></div>
+          <span>SMARTPARKING AI</span>
         </div>
+        <Heading level={2}>AI-01 — Báo cáo lưu lượng (7 ngày gần nhất)</Heading>
+        <Button onClick={handleTrafficReport} disabled={trafficLoading}>
+          {trafficLoading ? "Đang phân tích..." : "Sinh báo cáo"}
+        </Button>
 
         {trafficReport && (
-          <div>
-            <p className="bg-blue-50 border border-blue-200 rounded p-3 mb-3 text-sm">
+          <div style={{ marginTop: "16px" }}>
+            <p className="bg-blue-50 border border-blue-200 rounded p-3 text-sm">
               {trafficReport.summary}
             </p>
             {trafficReport.data.length > 0 && (
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left border-b">
-                    <th className="py-1">Ngày</th>
-                    <th>Số lượt</th>
-                    <th>Doanh thu</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {trafficReport.data.map((row, i) => (
-                    <tr key={i} className="border-b">
-                      <td className="py-1">{row.ngay}</td>
-                      <td>{row.so_luot}</td>
-                      <td>{Number(row.doanh_thu).toLocaleString()}đ</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="table-wrap" style={{ marginTop: "12px" }}>
+                <table>
+                  <thead>
+                    <tr><th>Ngày</th><th>Số lượt</th><th>Doanh thu</th></tr>
+                  </thead>
+                  <tbody>
+                    {trafficReport.data.map((row, i) => (
+                      <tr key={i}>
+                        <td>{row.ngay}</td>
+                        <td>{row.so_luot}</td>
+                        <td>{Number(row.doanh_thu).toLocaleString()}đ</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         )}
-      </div>
+      </article>
 
       {/* AI-02: Hỏi đáp quản trị */}
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <h2 className="font-semibold mb-4">AI-02 — Hỏi đáp quản trị</h2>
+      <article className="panel" style={{ marginTop: "13px" }}>
+        <Heading level={2}>AI-02 — Hỏi đáp quản trị</Heading>
         <form onSubmit={handleAsk} className="flex gap-3 mb-4">
           <input
             className="flex-1 border rounded px-3 py-2"
@@ -122,24 +112,20 @@ export default function ReportsPage() {
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
           />
-          <button
-            type="submit"
-            disabled={askLoading}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-          >
+          <Button type="submit" disabled={askLoading}>
             {askLoading ? "Đang hỏi..." : "Hỏi AI"}
-          </button>
+          </Button>
         </form>
         {answer && (
           <p className="bg-blue-50 border border-blue-200 rounded p-3 text-sm">
             {answer.answer}
           </p>
         )}
-      </div>
+      </article>
 
       {/* AI-03: Gợi ý nhân sự */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="font-semibold mb-4">AI-03 — Gợi ý bố trí nhân sự</h2>
+      <article className="panel" style={{ marginTop: "13px" }}>
+        <Heading level={2}>AI-03 — Gợi ý bố trí nhân sự</Heading>
         <div className="flex gap-3 items-end mb-4">
           <div>
             <label className="block text-sm mb-1">Số nhân viên hiện có</label>
@@ -151,20 +137,16 @@ export default function ReportsPage() {
               onChange={(e) => setSoNhanVien(e.target.value)}
             />
           </div>
-          <button
-            onClick={handleStaffing}
-            disabled={staffingLoading}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-          >
+          <Button onClick={handleStaffing} disabled={staffingLoading}>
             {staffingLoading ? "Đang phân tích..." : "Xin gợi ý"}
-          </button>
+          </Button>
         </div>
         {staffingResult && (
           <p className="bg-blue-50 border border-blue-200 rounded p-3 text-sm">
             {staffingResult.suggestion}
           </p>
         )}
-      </div>
-    </div>
+      </article>
+    </>
   );
 }

@@ -22,10 +22,7 @@ SYSTEM_PROMPT = (
     "- Không tự tạo, không suy đoán bất kỳ con số nào ngoài dữ liệu được cung cấp.\n"
     "- Nếu dữ liệu không đủ để trả lời, phải nói rõ 'không đủ dữ liệu', không được bịa.\n"
     "- Trả lời bằng tiếng Việt, ngắn gọn trong 2-4 câu, không markdown, không liệt kê dài dòng.\n"
-)
-
-
-@router.post("/traffic-report", response_model=TrafficReportResponse)
+)@router.post("/traffic-report", response_model=TrafficReportResponse)
 def traffic_report(
     days: int = Query(default=7, ge=1, le=90),
     db: Session = Depends(get_db),
