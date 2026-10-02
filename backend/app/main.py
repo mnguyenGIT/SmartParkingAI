@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.database import Base, engine
 from app import models  # noqa: F401
-from app.routers import auth, zones, vehicle_types, pricing, monthly_customers, sessions, ai
+from app.routers import auth, zones, vehicle_types, pricing, monthly_customers, sessions, ai, parking_spots
 
 # 1. Tạo app TRƯỚC
 app = FastAPI(
@@ -29,6 +29,7 @@ app.include_router(pricing.router)
 app.include_router(monthly_customers.router)
 app.include_router(sessions.router)
 app.include_router(ai.router)
+app.include_router(parking_spots.router)
 
 
 @app.get("/")

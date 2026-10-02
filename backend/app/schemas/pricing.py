@@ -2,6 +2,8 @@ from datetime import date
 
 from pydantic import BaseModel
 
+from app.models.enums import SpotStatus
+
 
 # ---------- Zone ----------
 class ZoneCreate(BaseModel):
@@ -61,6 +63,37 @@ class PricingPlanOut(BaseModel):
     don_gia_gio: float
     don_gia_ngay: float | None
     hieu_luc_tu: date
+
+    class Config:
+        from_attributes = True
+
+
+# ---------- ParkingSpot ----------
+class ParkingSpotCreate(BaseModel):
+    ma_vi_tri: str
+    khu_vuc_id: int
+    loai_xe_id: int
+    trang_thai: SpotStatus | None = None
+    is_active: bool | None = True
+
+
+class ParkingSpotUpdate(BaseModel):
+    ma_vi_tri: str | None = None
+    khu_vuc_id: int | None = None
+    loai_xe_id: int | None = None
+    trang_thai: SpotStatus | None = None
+    is_active: bool | None = None
+
+
+class ParkingSpotOut(BaseModel):
+    id: int
+    ma_vi_tri: str
+    khu_vuc_id: int
+    loai_xe_id: int
+    trang_thai: SpotStatus
+    is_active: bool
+    zone_name: str | None = None
+    vehicle_type_name: str | None = None
 
     class Config:
         from_attributes = True
