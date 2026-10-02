@@ -103,7 +103,7 @@ button { border: 0; }
 .stat-value { display: block; font-size: 25px; letter-spacing: -.05em; margin-top: 6px; line-height: 1.2; }
 .stat-card small { color: #9ba29d; font-size: 8px; }
 
-.dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(300px, .7fr); gap: 13px; margin-top: 13px; }
+.dashboard-grid { margin-top: 13px; }
 .panel { padding: 20px; }
 .panel-head { display: flex; align-items: flex-start; justify-content: space-between; }
 .panel-head h2, .ai-card h2, .modal h2 { font-size: 14px; letter-spacing: -.025em; margin: 0; font-weight: 650; }
