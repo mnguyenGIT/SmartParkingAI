@@ -19,7 +19,10 @@ const pathsMap = {
   trash: <><path d="M3 6h18" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2" /></>,
   save: <><path d="M19 21H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h7l4-4h2a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2Z" /><path d="M12 15v-3a3 3 0 0 1 6 0v3M9 10h6" /></>,
   cancel: <><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></>,
+  eye: <><path d="M1 12s8-7 14-7 10 7 10 7-8 7-14 7z" /><circle cx="12" cy="12" r="3" /></>,
+  eyeOff: <><path d="M1 12s8-7 14-7 10 7 10 7-8 7-14 7z" /><line x1="3" y1="3" x2="21" y2="21" /><circle cx="12" cy="12" r="3" /></>,
 };
+
 
 export default function Icon({ name, size = 20 }) {
   const svgPaths = pathsMap[name] || pathsMap.search;

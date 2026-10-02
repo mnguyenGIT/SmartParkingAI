@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Icon from "../components/Icon";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -22,7 +24,11 @@ export default function LoginPage() {
         navigate("/nhanvien");
       }
     } catch (err) {
-      setError("Sai tên đăng nhập hoặc mật khẩu");
+      setError(
+        err.response?.data?.detail ||
+        err.message ||
+        "Sai tên đăng nhập hoặc mật khẩu"
+      );
     } finally {
       setLoading(false);
     }
@@ -66,14 +72,35 @@ export default function LoginPage() {
 
         <div className="form-group">
           <label>Mật khẩu</label>
-          <input
-            type="password"
-            className="w-full"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder="Nhập mật khẩu"
-          />
+          <div style={{ position: "relative" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              className="w-full"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Nhập mật khẩu"
+              style={{ paddingRight: "40px" }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "4px",
+                color: "var(--color-muted)",
+              }}
+              aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+            >
+              <Icon name={showPassword ? "eyeOff" : "eye"} size={18} />
+            </button>
+          </div>
         </div>
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
